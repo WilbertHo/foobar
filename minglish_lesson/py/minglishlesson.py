@@ -144,22 +144,22 @@ def get_neighbor(a, b):
 
 def topological_sort(graph):
     def visit(node):
-        if temp.get(node, False):
+        if node in temp:
             raise Exception("Not a directed acyclic graph.")
-        if not visited.get(node, False):
-            temp[node] = True
+        if node not in visited:
+            temp.add(node)
             for neighbor in graph[node].neighbors:
                 visit(neighbor)
-            visited[node] = True
-            temp[node] = False
+            visited.add(node)
+            temp.remove(node)
             alphabet.appendleft(node)
 
     alphabet = deque()
-    temp = dict()
-    visited = dict()
+    temp = set()
+    visited = set()
 
     for node, neighbors in graph.iteritems():
-        if not visited.get(node, False):
+        if node not in visited:
             visit(node)
 
     return ''.join(list(alphabet))
